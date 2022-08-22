@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
-import threading
+from threading import Thread
 import zmq
 import csv
+
+
 
 def load_test_plan():
     '''
@@ -26,7 +28,6 @@ class ZMQSub():
 
     def __init__(self, addr):
         self.status = False
-        self.test_plan = load_test_plan()
         self.socket = context.socket(zmq.SUB)
         self.socket.setsockopt(zmq.SUBSCRIBE, b'')
         self.socket.connect(addr)
@@ -37,44 +38,43 @@ class ZMQSub():
         '''
         while True:
             msg = self.socket.recv_string()
-            print(msg)
-            if msg == 'start' and self.status == False: # you cant twice run it, without running out.
-                self.status = True
-                t = threading.Thread(target=seq.run, args=(self.test_plan,))
+
+            # you cant twice run it, without running out.
+            if msg == 'start' and self.status == False:
+                self.set_status()
+                t = Thread(target=seq.run, args=(load_test_plan(),))
                 t.start()
-                # cant join, we need to recv stop
             elif msg == 'stop':
-                self.status = False
-                seq.stop()
+                self.set_status(0)
+
+
+    def set_status(self, num=None):
+        if num == 0:
+            self.status = False
+        else:
+            self.status = True
 
 
 
-
-class ZMQSeq():
+class ZMQPairServer():
     '''
-    connect the sep of TE.
+    connect the pair of TE.
     '''
     addr = 'tcp://127.0.0.1:8800'
 
     def __init__(self, addr):
-        self.status = False
-        self.socket = context.socket(zmq.REQ)
-        self.socket.connect(addr)
+        self.socket = context.socket(zmq.PAIR)
+        self.socket.bind(addr)
 
     def run(self, test_plan):
-        self.status = True
-        for item in test_plan:
-            print(self.status)
-            if self.status:
-                self.socket.send_pyobj(item)
-                result = self.socket.recv_pyobj()
-                # you can write log.
-                print(result)
-            else:
-                break
+        self.socket.send_pyobj(test_plan)
+        print('task:', test_plan)
+        result = self.socket.recv_pyobj()
+        if isinstance(result, list):
+            print('result ', result)
+        # you can write log.
 
-    def stop(self):
-        self.status = False
+
 
     def close(self):
         self.socket.close()
