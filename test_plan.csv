@@ -1,0 +1,5 @@
+GROUP,DESCRIPTION,UNIT,LOW,HIGH,FUNCTION,PARAM1,PARAM2
+ICT,Test1,,,,add,1,2
+ICT,Test1,,,,sub,1,2
+ICT,Test2,,,,div,4,9
+ICT,Test3,,,,mul,3,2
