@@ -32,7 +32,7 @@ class ZMQSub():
         self.socket.setsockopt(zmq.SUBSCRIBE, b'')
         self.socket.connect(addr)
 
-    def run(self, seq):
+    def run(self, pair_server):
         '''
         :param zmqSeq: ZMQSeq instance
         '''
@@ -42,7 +42,7 @@ class ZMQSub():
             # you cant twice run it, without running out.
             if msg == 'start' and self.status == False:
                 self.set_status()
-                t = Thread(target=seq.run, args=(load_test_plan(),))
+                t = Thread(target=pair_server.run, args=(load_test_plan(),))
                 t.start()
             elif msg == 'stop':
                 self.set_status(0)

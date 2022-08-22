@@ -32,10 +32,13 @@ def web_main(pub):
     ########## you can change codes for your test of behavior UI action. #########
     # pub.stop()
     pub.start()
-    pub.start()
-    pub.start()
+    # pub.start()
+    # pub.start()
+
+    # must sleep. insure zmq can successfully send/recv msg.
     time.sleep(0.1)
-    # pub.stop()
+
+    pub.stop()
     ##############################################################################
     ##############################################################################
 
@@ -43,3 +46,4 @@ if __name__ == '__main__':
     pub = ZMQPub(ZMQPub.web_addr)
     time.sleep(0.5)
     web_main(pub)
+

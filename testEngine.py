@@ -7,6 +7,24 @@ import asyncio
 
 context = zmq.Context()
 
+class ZMQSub_Function():
+    '''
+    recv 'stop' from the web pub to stop running funcs.
+    '''
+    web_addr = 'tcp://127.0.0.1:8888'
+
+    def __init__(self, addr):
+        self.socket = context.socket(zmq.SUB)
+        self.socket.setsockopt(zmq.SUBSCRIBE, b'')
+        self.socket.connect(addr)
+
+    def run(self):
+        while True:
+            msg = self.socket.recv_string()
+            if msg == 'stop':
+                Functions.status = False
+
+
 
 class ZMQPairClient():
     addr = 'tcp://127.0.0.1:8800'
@@ -58,6 +76,10 @@ class ZMQPairClient():
         thread_async_daemon.start()
 
 def testEngine_main(pair_client, sub):
+    sub_func = ZMQSub_Function(ZMQSub_Function.web_addr)
+    t = Thread(target=sub_func.run)
+    t.start()
+
     # main thread get event loop
     loop = asyncio.get_event_loop()
     # create a child thread to run the loop forever.
@@ -65,5 +87,5 @@ def testEngine_main(pair_client, sub):
 
     # create a child thread to run a WhileTrue, and captured async tasks will
     # run in the loop in previous child thread.
-    t = Thread(target=pair_client.run, args=(loop, sub))
-    t.start()
+    t_async = Thread(target=pair_client.run, args=(loop, sub))
+    t_async.start()
