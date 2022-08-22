@@ -19,7 +19,7 @@ class ZMQRep():
             fun, params = self.socket.recv_pyobj()
             print('FUNCTION:%s%s'%(fun, params))
             result = funcs.__getattribute__(fun)(*params)
-            # time.sleep(10)
+            time.sleep(5)
             self.socket.send_pyobj(result)
 
     def close(self):

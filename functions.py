@@ -1,13 +1,6 @@
 # -*- coding: utf-8 -*-
-'''
-项目中的测试用例，这里写文件到 log 中，可以手动 stop。
-'''
-import asyncio
-import time
-import random
 import traceback
 
-RUNNING = False
 
 class Functions():
     '''
