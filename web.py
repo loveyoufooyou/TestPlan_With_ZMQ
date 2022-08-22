@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import time
-
+from flask import Flask, render_template
 import zmq
 
 context = zmq.Context()
@@ -27,23 +27,46 @@ class ZMQPub():
     def close(self):
         self.socket.close()
 
-def web_main(pub):
-    ##############################################################################
-    ########## you can change codes for your test of behavior UI action. #########
-    # pub.stop()
+# def web_main(pub):
+#     ##############################################################################
+#     ########## you can change codes for your test of behavior UI action. #########
+#     # pub.stop()
+#     pub.start()
+#     # pub.start()
+#     # pub.start()
+#
+#     # must sleep. insure zmq can successfully send/recv msg.
+#     time.sleep(0.1)
+#
+#     pub.stop()
+#     ##############################################################################
+#     ##############################################################################
+
+
+app = Flask(__name__)
+
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+@app.route('/test/start/')
+def start():
     pub.start()
-    # pub.start()
-    # pub.start()
+    return 'hello start'
 
-    # must sleep. insure zmq can successfully send/recv msg.
-    time.sleep(0.1)
 
+@app.route('/test/stop/')
+def stop():
     pub.stop()
-    ##############################################################################
-    ##############################################################################
+    return 'hello stop'
+
+
 
 if __name__ == '__main__':
+
     pub = ZMQPub(ZMQPub.web_addr)
     time.sleep(0.5)
-    web_main(pub)
+    app.run()
+
+    # web_main(pub)
 

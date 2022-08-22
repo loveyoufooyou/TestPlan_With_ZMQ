@@ -76,6 +76,7 @@ class ZMQPairClient():
         thread_async_daemon.start()
 
 def testEngine_main(pair_client, sub):
+    # adding a sub to connect the web pub, it contacts with functions.
     sub_func = ZMQSub_Function(ZMQSub_Function.web_addr)
     t = Thread(target=sub_func.run)
     t.start()

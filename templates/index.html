@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ICT</title>
+</head>
+<body>
+<div class="master">
+    <div class="container">
+        <input type="button" value="test" id="test" onclick="test('{{request.url}}')">
+        <span>点击进行测试</span>
+        <span class="hind"  >  &nbsp;testing...</span>
+    </div>
+    <div class="container">
+        <input type="button" value="stop" id="stop" onclick="stop('{{request.url}}')">
+        <span>点击停止测试</span>
+    </div>
+</div>
+
+
+<style type="text/css">
+    .master {
+        position:fixed ;
+        left:500px;
+        top:200px;
+        margin: 0 auto;
+        text-align: center
+
+    }
+    .container {
+        width:300px;
+        height:100px;
+    }
+    .container input {
+        font-size:30px;
+    }
+
+    .hind {
+        display:none;
+        color:red
+    }
+
+</style>
+</body>
+</html>
+<script type="text/javascript">
+
+  function test(url){
+    running()
+    window.open(url + 'test/start/')
+  }
+  function stop(url){
+    window.open(url + 'test/stop/')
+    stopping()
+  }
+
+  function running(){
+    var sp = document.querySelector('.hind')
+    sp.style.display='inline'
+  }
+
+  function stopping(){
+    var sp = document.querySelector('.hind')
+    sp.style.display='none'
+    window.alert('测试已停止')
+  }
+
+</script>
+
