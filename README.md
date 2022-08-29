@@ -6,7 +6,7 @@ The project is a demo to simulate. Some devices need sockets to communicate with
 ![图片](./static/picture.png)
 
 ## Run
-We only run the web.py and `main.py`.
+We only run the `web.py` and `main.py`.
 
 ![图片](./static/web.png)
 
