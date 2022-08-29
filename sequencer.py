@@ -8,7 +8,7 @@ import csv
 def load_test_plan():
     '''
     load test_plan.csv
-    :return: test_plan list
+    :return: test_list list
     '''
     test_list = []
     with open('test_plan.csv', 'r') as csvfile:
@@ -22,7 +22,7 @@ context = zmq.Context()
 
 class ZMQSub():
     '''
-    Forwarding msg from the web pub to seq.
+    Forwarding msg from the web pub to sequencer.
     '''
     web_addr = 'tcp://127.0.0.1:8888'
 
@@ -34,7 +34,7 @@ class ZMQSub():
 
     def run(self, pair_server):
         '''
-        :param zmqSeq: ZMQSeq instance
+        :param pair_server: ZMQPair instance
         '''
         while True:
             msg = self.socket.recv_string()
@@ -58,7 +58,7 @@ class ZMQSub():
 
 class ZMQPairServer():
     '''
-    connect the pair of TE.
+    connect the pair of TestEngine.
     '''
     addr = 'tcp://127.0.0.1:8800'
 
