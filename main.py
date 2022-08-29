@@ -14,10 +14,9 @@ sub = ZMQSub(ZMQSub.web_addr)
 testEngine_main(pair_client, sub)
 
 
-
 # Simulating UI click, we run code of sequencer.
 sub.run(pair_server)  # cant go out the loop
 
 
-# close socket of seq.
+# close socket of server.
 pair_server.close()

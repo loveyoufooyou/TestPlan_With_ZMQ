@@ -53,7 +53,7 @@ class Functions():
     @staticmethod
     async def mul(param1, param2, *args, **kwargs):
         try:
-            await asyncio.sleep(10)
+            await asyncio.sleep(10)  # long time
             return float(param1) * float(param2)
         except:
             return traceback.format_exc(limit=2)
